@@ -1,9 +1,12 @@
 import * as React from "react";
 import { View, StyleSheet, Text, Image, TextInput, TouchableOpacity, Alert } from "react-native";
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const SubscribeScreen = () => {
   // Add subscribe screen code here
   const [text, setText] = React.useState("");
+  const [showAlert, setShowAlert] = React.useState(false)
+  const [alertMessage, setAlertMessage] = React.useState("")
 
   const validateEmail = (email) => {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -12,11 +15,11 @@ const SubscribeScreen = () => {
 
     const handleSubmit = () => {
       if(!validateEmail(text)) {
-        console.log('Please enter a valid email');
+        setAlertMessage('Please enter a valid email');
+        setShowAlert(true)
       }else{
-        console.log("Thank you for subscribing , stay tuned !")
-       Alert.alert("foo")
-        
+        setAlertMessage("Thank you for subscribing , stay tuned !")  
+        setShowAlert(true)      
       }
     }
 
@@ -43,6 +46,22 @@ const SubscribeScreen = () => {
        >
          <Text style={styles.buttonTxt}> Subscribe </Text>
        </TouchableOpacity>
+       <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          message={alertMessage}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={true}
+          confirmButtonColor="#DD6B55"
+          onCancelPressed={() => {
+            setShowAlert(false)
+          }}
+          onConfirmPressed={() => {
+            setShowAlert(false)
+          }}
+        />
     </View>
   );
 };
